@@ -2,11 +2,13 @@ import java.io.*;
 
 public class ArvoreBinariaBusca {
     private No raiz;
-     // Adiciona um novo valor na árvore
+
+    // Adiciona um novo valor na árvore
     public void inserir(int valor) {
         raiz = inserirNo(raiz, valor);
     }
-     // Método para adicionar um novo nó
+
+    // Método para adicionar um novo nó
     private No inserirNo(No raiz, int valor) {
         if (raiz == null) {
             return new No(valor);
@@ -20,10 +22,12 @@ public class ArvoreBinariaBusca {
 
         return raiz;
     }
-    //Método para buscar valor na arvore
+
+    // Método para buscar valor na árvore
     public boolean buscar(int valor) {
         return buscarNo(raiz, valor);
     }
+
     private boolean buscarNo(No raiz, int valor) {
         if (raiz == null) {
             return false;
@@ -37,10 +41,12 @@ public class ArvoreBinariaBusca {
             return buscarNo(raiz.direita, valor);
         }
     }
-    //Método do percurso pré ordem
+
+    // Método do percurso pré-ordem
     public void preordem() {
         preordem(raiz);
     }
+
     private void preordem(No raiz) {
         if (raiz != null) {
             System.out.print(raiz.valor + " ");
@@ -48,11 +54,12 @@ public class ArvoreBinariaBusca {
             preordem(raiz.direita);
         }
     }
- //Método do percurso em ordem
+
+    // Método do percurso em ordem
     public void emOrdem() {
         emOrdem(raiz);
     }
-   
+
     private void emOrdem(No raiz) {
         if (raiz != null) {
             emOrdem(raiz.esquerda);
@@ -60,10 +67,12 @@ public class ArvoreBinariaBusca {
             emOrdem(raiz.direita);
         }
     }
-//Método do percurso pós ordem
+
+    // Método do percurso pós-ordem
     public void posordem() {
         posordem(raiz);
     }
+
     private void posordem(No raiz) {
         if (raiz != null) {
             posordem(raiz.esquerda);
@@ -71,11 +80,13 @@ public class ArvoreBinariaBusca {
             System.out.print(raiz.valor + " ");
         }
     }
-    //Método para remover um valor
+
+    // Método para remover um valor
     public void remover(int valor) {
         raiz = removerNo(raiz, valor);
     }
-    //Método auxiliar para remoção de um nó
+
+    // Método auxiliar para remoção de um nó
     private No removerNo(No raiz, int valor) {
         if (raiz == null) {
             return null;
@@ -99,7 +110,8 @@ public class ArvoreBinariaBusca {
 
         return raiz;
     }
-    //Método que encontra o menor valor em uma subarvore
+
+    // Método que encontra o menor valor em uma subárvore
     private int menorValor(No raiz) {
         int menorValor = raiz.valor;
         while (raiz.esquerda != null) {
@@ -108,7 +120,8 @@ public class ArvoreBinariaBusca {
         }
         return menorValor;
     }
-    //Método onde eu implemento a lógica para criar um arquivo dot
+
+    // Método onde implemento a lógica para criar um arquivo DOT
     public void gerarArquivoDot(String nomeArquivo) {
         StringBuilder conteudoDot = new StringBuilder();
         conteudoDot.append("digraph BST {\n");
@@ -123,7 +136,8 @@ public class ArvoreBinariaBusca {
             e.printStackTrace();
         }
     }
-    //Método auxiliar que gera o conteudo do arquivo dot
+
+    // Método auxiliar que gera o conteúdo do arquivo DOT
     private void gerarDot(No raiz, StringBuilder conteudoDot) {
         if (raiz != null) {
             if (raiz.esquerda != null) {
@@ -138,7 +152,7 @@ public class ArvoreBinariaBusca {
     }
 
     public static void main(String[] args) {
-        //Criação do exemplo 1
+        // Criação do exemplo 1
         ArvoreBinariaBusca arvore1 = new ArvoreBinariaBusca();
         arvore1.inserir(50);
         arvore1.inserir(30);
@@ -162,7 +176,7 @@ public class ArvoreBinariaBusca {
         arvore1.posordem();
         System.out.println();
 
-        //Criação do exemplo 2
+        // Criação do exemplo 2
         ArvoreBinariaBusca arvore2 = new ArvoreBinariaBusca();
         arvore2.inserir(50);
         arvore2.inserir(30);
@@ -185,7 +199,7 @@ public class ArvoreBinariaBusca {
         arvore2.posordem();
         System.out.println();
 
-        //Criação do exemplo 3
+        // Criação do exemplo 3
         ArvoreBinariaBusca arvore3 = new ArvoreBinariaBusca();
         arvore3.inserir(50);
         arvore3.inserir(30);
@@ -208,7 +222,7 @@ public class ArvoreBinariaBusca {
         arvore3.posordem();
         System.out.println();
 
-        //Criação do exemplo 4
+        // Criação do exemplo 4
         ArvoreBinariaBusca arvore4 = new ArvoreBinariaBusca();
         arvore4.inserir(50);
         arvore4.inserir(30);
@@ -236,7 +250,7 @@ public class ArvoreBinariaBusca {
         arvore4.posordem();
         System.out.println();
 
-        //Criação do exemplo 5
+        // Criação do exemplo 5
         ArvoreBinariaBusca arvore5 = new ArvoreBinariaBusca();
         arvore5.inserir(50);
         arvore5.inserir(30);
@@ -266,7 +280,7 @@ public class ArvoreBinariaBusca {
         arvore5.posordem();
         System.out.println();
 
-        //Aqui eu chamo o método parar gerar os dot das arvores
+        // Aqui eu chamo o método para gerar os DOT das árvores
         arvore1.gerarArquivoDot("arvore1.dot");
         arvore2.gerarArquivoDot("arvore2.dot");
         arvore3.gerarArquivoDot("arvore3.dot");
