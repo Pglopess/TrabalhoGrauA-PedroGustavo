@@ -1,0 +1,269 @@
+import java.io.*;
+
+public class ArvoreBinariaBusca {
+    private No raiz;
+
+    public void inserir(int valor) {
+        raiz = inserirNo(raiz, valor);
+    }
+
+    private No inserirNo(No raiz, int valor) {
+        if (raiz == null) {
+            return new No(valor);
+        }
+
+        if (valor < raiz.valor) {
+            raiz.esquerda = inserirNo(raiz.esquerda, valor);
+        } else if (valor > raiz.valor) {
+            raiz.direita = inserirNo(raiz.direita, valor);
+        }
+
+        return raiz;
+    }
+
+    public boolean buscar(int valor) {
+        return buscarNo(raiz, valor);
+    }
+
+    private boolean buscarNo(No raiz, int valor) {
+        if (raiz == null) {
+            return false;
+        }
+
+        if (valor == raiz.valor) {
+            return true;
+        } else if (valor < raiz.valor) {
+            return buscarNo(raiz.esquerda, valor);
+        } else {
+            return buscarNo(raiz.direita, valor);
+        }
+    }
+
+    public void preordem() {
+        preordem(raiz);
+    }
+
+    private void preordem(No raiz) {
+        if (raiz != null) {
+            System.out.print(raiz.valor + " ");
+            preordem(raiz.esquerda);
+            preordem(raiz.direita);
+        }
+    }
+
+    public void emOrdem() {
+        emOrdem(raiz);
+    }
+
+    private void emOrdem(No raiz) {
+        if (raiz != null) {
+            emOrdem(raiz.esquerda);
+            System.out.print(raiz.valor + " ");
+            emOrdem(raiz.direita);
+        }
+    }
+
+    public void posordem() {
+        posordem(raiz);
+    }
+
+    private void posordem(No raiz) {
+        if (raiz != null) {
+            posordem(raiz.esquerda);
+            posordem(raiz.direita);
+            System.out.print(raiz.valor + " ");
+        }
+    }
+
+    public void remover(int valor) {
+        raiz = removerNo(raiz, valor);
+    }
+
+    private No removerNo(No raiz, int valor) {
+        if (raiz == null) {
+            return null;
+        }
+
+        if (valor < raiz.valor) {
+            raiz.esquerda = removerNo(raiz.esquerda, valor);
+        } else if (valor > raiz.valor) {
+            raiz.direita = removerNo(raiz.direita, valor);
+        } else {
+            if (raiz.esquerda == null) {
+                return raiz.direita;
+            } else if (raiz.direita == null) {
+                return raiz.esquerda;
+            }
+
+            raiz.valor = menorValor(raiz.direita);
+
+            raiz.direita = removerNo(raiz.direita, raiz.valor);
+        }
+
+        return raiz;
+    }
+
+    private int menorValor(No raiz) {
+        int menorValor = raiz.valor;
+        while (raiz.esquerda != null) {
+            menorValor = raiz.esquerda.valor;
+            raiz = raiz.esquerda;
+        }
+        return menorValor;
+    }
+
+    public void gerarArquivoDot(String nomeArquivo) {
+        StringBuilder conteudoDot = new StringBuilder();
+        conteudoDot.append("digraph BST {\n");
+        gerarDot(raiz, conteudoDot);
+        conteudoDot.append("}");
+
+        try {
+            BufferedWriter escritor = new BufferedWriter(new FileWriter(nomeArquivo));
+            escritor.write(conteudoDot.toString());
+            escritor.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void gerarDot(No raiz, StringBuilder conteudoDot) {
+        if (raiz != null) {
+            if (raiz.esquerda != null) {
+                conteudoDot.append(raiz.valor).append(" -> ").append(raiz.esquerda.valor).append(";\n");
+            }
+            if (raiz.direita != null) {
+                conteudoDot.append(raiz.valor).append(" -> ").append(raiz.direita.valor).append(";\n");
+            }
+            gerarDot(raiz.esquerda, conteudoDot);
+            gerarDot(raiz.direita, conteudoDot);
+        }
+    }
+
+    public static void main(String[] args) {
+        ArvoreBinariaBusca arvore1 = new ArvoreBinariaBusca();
+        arvore1.inserir(50);
+        arvore1.inserir(30);
+        arvore1.inserir(70);
+        arvore1.inserir(20);
+        arvore1.inserir(40);
+        arvore1.inserir(60);
+        arvore1.inserir(80);
+        arvore1.inserir(25);
+        arvore1.inserir(35);
+        arvore1.inserir(45);
+        arvore1.inserir(55);
+        arvore1.inserir(75);
+        System.out.print("Árvore 1, Pre-ordem: ");
+        arvore1.preordem();
+        System.out.println();
+        System.out.print("Árvore 1, Em ordem: ");
+        arvore1.emOrdem();
+        System.out.println();
+        System.out.print("Árvore 1, Pós-ordem: ");
+        arvore1.posordem();
+        System.out.println();
+        ArvoreBinariaBusca arvore2 = new ArvoreBinariaBusca();
+        arvore2.inserir(50);
+        arvore2.inserir(30);
+        arvore2.inserir(70);
+        arvore2.inserir(20);
+        arvore2.inserir(40);
+        arvore2.remover(40);
+        arvore2.inserir(45);
+        arvore2.inserir(35);
+        arvore2.inserir(80);
+        arvore2.inserir(75);
+        arvore2.inserir(60);
+        System.out.print("Árvore 2, Pre-ordem: ");
+        arvore2.preordem();
+        System.out.println();
+        System.out.print("Árvore 2, Em ordem: ");
+        arvore2.emOrdem();
+        System.out.println();
+        System.out.print("Árvore 2, Pós-ordem: ");
+        arvore2.posordem();
+        System.out.println();
+        ArvoreBinariaBusca arvore3 = new ArvoreBinariaBusca();
+        arvore3.inserir(50);
+        arvore3.inserir(30);
+        arvore3.inserir(70);
+        arvore3.inserir(20);
+        arvore3.inserir(40);
+        arvore3.remover(30);
+        arvore3.inserir(25);
+        arvore3.inserir(35);
+        arvore3.inserir(80);
+        arvore3.inserir(75);
+        arvore3.inserir(60);
+        System.out.print("Árvore 3, Pre-ordem: ");
+        arvore3.preordem();
+        System.out.println();
+        System.out.print("Árvore 3, Em ordem: ");
+        arvore3.emOrdem();
+        System.out.println();
+        System.out.print("Árvore 3, Pós-ordem: ");
+        arvore3.posordem();
+        System.out.println();
+        ArvoreBinariaBusca arvore4 = new ArvoreBinariaBusca();
+        arvore4.inserir(50);
+        arvore4.inserir(30);
+        arvore4.inserir(70);
+        arvore4.inserir(20);
+        arvore4.inserir(40);
+        arvore4.remover(30);
+        arvore4.inserir(45);
+        arvore4.inserir(35);
+        arvore4.remover(40);
+        arvore4.inserir(37);
+        arvore4.inserir(38);
+        arvore4.inserir(25);
+        arvore4.inserir(55);
+        arvore4.inserir(65);
+        arvore4.inserir(80);
+        arvore4.inserir(72);
+        System.out.print("Árvore 4, Pre-ordem: ");
+        arvore4.preordem();
+        System.out.println();
+        System.out.print("Árvore 4, Em ordem: ");
+        arvore4.emOrdem();
+        System.out.println();
+        System.out.print("Árvore 4, Pós-ordem: ");
+        arvore4.posordem();
+        System.out.println();
+        ArvoreBinariaBusca arvore5 = new ArvoreBinariaBusca();
+        arvore5.inserir(50);
+        arvore5.inserir(30);
+        arvore5.inserir(70);
+        arvore5.remover(30);
+        arvore5.inserir(20);
+        arvore5.inserir(40);
+        arvore5.remover(70);
+        arvore5.inserir(60);
+        arvore5.inserir(80);
+        arvore5.remover(50);
+        arvore5.inserir(55);
+        arvore5.inserir(45);
+        arvore5.inserir(65);
+        arvore5.inserir(35);
+        arvore5.inserir(75);
+        arvore5.inserir(73);
+        arvore5.inserir(85);
+        arvore5.inserir(62);
+        System.out.print("Árvore 5, Pre-ordem: ");
+        arvore5.preordem();
+        System.out.println();
+        System.out.print("Árvore 5, Em ordem: ");
+        arvore5.emOrdem();
+        System.out.println();
+        System.out.print("Árvore 5, Pós-ordem: ");
+        arvore5.posordem();
+        System.out.println();
+        arvore1.gerarArquivoDot("arvore1.dot");
+        arvore2.gerarArquivoDot("arvore2.dot");
+        arvore3.gerarArquivoDot("arvore3.dot");
+        arvore4.gerarArquivoDot("arvore4.dot");
+        arvore5.gerarArquivoDot("arvore5.dot");
+        System.out.println("Todos os exemplos foram concluídos.");
+    }
+}
