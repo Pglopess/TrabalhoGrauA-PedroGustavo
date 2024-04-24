@@ -1,5 +1,4 @@
-package br.unisinos;
- 
+
 import java.io.*;
  
 public class ArvoreBinariaBusca {
